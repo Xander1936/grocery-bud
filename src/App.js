@@ -9,15 +9,11 @@ function App() {
   const [editID, setEditID] = useState(null);
   const [alert, setAlert] = useState({show: false, msg:'', type:'' });
 
-  const showAlert = (show = false, type = "", msg = "") => {
-    setAlert({show, type, msg })
-  }
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log('hello');
     
-
     if(!name) {
       // If name is false; display alert
       showAlert(true, 'danger', 'please enter a value')
@@ -27,6 +23,8 @@ function App() {
     }
     else {
       // Show alert
+      showAlert(true, 'success', 'item added to the list')
+
       const newItem = {
         id : new Date().getTime().toString(),
         title : name
@@ -34,8 +32,17 @@ function App() {
       // Get all the previous values from the state list values 
       setList([...list, newItem]);
       setName('') 
-    }
-    
+    }  
+  }
+  // showAlert Function
+  const showAlert = (show = false, type = "", msg = "") => {
+    setAlert({show, type, msg })
+  }
+
+  // clearList Function
+  const clearList = () => {
+    showAlert(true, 'danger', 'empty list');
+    setList([]);
   }
 
   return (
@@ -65,7 +72,7 @@ function App() {
         {list.length > 0 && (
           <div className='grocery-container'>
             <List items={list} />
-            <button className='clear-btn'>
+            <button className='clear-btn' onClick={clearList}>
               clear items
             </button>
           </div>
