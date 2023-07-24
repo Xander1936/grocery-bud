@@ -9,12 +9,18 @@ function App() {
   const [editID, setEditID] = useState(null);
   const [alert, setAlert] = useState({show: false, msg:'', type:'' });
 
+  const showAlert = (show = false, type = "", msg = "") => {
+    setAlert({show, type, msg })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log('hello');
+    
 
     if(!name) {
       // If name is false; display alert
+      showAlert(true, 'danger', 'please enter a value')
     }
     else if(name && isEditing) {
       // Deal with edit
@@ -29,13 +35,13 @@ function App() {
       setList([...list, newItem]);
       setName('') 
     }
+    
   }
-
 
   return (
     <section className='section-center'>
       <form className='grocery-form' onSubmit={handleSubmit}>
-        { alert.show && <Alert /> }
+        { alert.show && <Alert {...alert} removeAlert={showAlert} /> }
         <h3>grocery bud</h3>
         <div className='form-control'>
           <input 
