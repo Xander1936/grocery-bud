@@ -7,12 +7,30 @@ function App() {
   const [list, setList] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editID, setEditID] = useState(null);
-  const [alert, setAlert] = useState({show:false, msg:'', type:'' });
+  const [alert, setAlert] = useState({show: false, msg:'', type:'' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('hello');
+    // console.log('hello');
+
+    if(!name) {
+      // If name is false; display alert
+    }
+    else if(name && isEditing) {
+      // Deal with edit
+    }
+    else {
+      // Show alert
+      const newItem = {
+        id : new Date().getTime().toString(),
+        title : name
+      };
+      // Get all the previous values from the state list values 
+      setList([...list, newItem]);
+      setName('') 
+    }
   }
+
 
   return (
     <section className='section-center'>
@@ -37,8 +55,15 @@ function App() {
         </div>
       </form>
       <div className='grocery-container'>
-        <List />
-        <button className='clear-btn'>clear items</button>
+        {/* Set the items list and the clearList Button as we add one item */}
+        {list.length > 0 && (
+          <div className='grocery-container'>
+            <List items={list} />
+            <button className='clear-btn'>
+              clear items
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )
