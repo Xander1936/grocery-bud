@@ -39,11 +39,19 @@ function App() {
     setAlert({show, type, msg })
   }
 
-  // clearList Function
+  // clearList Function to clear all the items in Grocery Bud's List
   const clearList = () => {
     showAlert(true, 'danger', 'empty list');
     setList([]);
   }
+
+  // removeItem Function 
+  // To remove item one by one in the list
+  const removeItem = (id) => {
+    showAlert(true, 'danger', 'item removed');
+    setList(list.filter((item) => item.id !== id))
+  }
+
 
   return (
     <section className='section-center'>
@@ -71,7 +79,7 @@ function App() {
         {/* Set the items list and the clearList Button as we add one item */}
         {list.length > 0 && (
           <div className='grocery-container'>
-            <List items={list} />
+            <List items={list} removeItem={removeItem} />
             <button className='clear-btn' onClick={clearList}>
               clear items
             </button>
