@@ -20,6 +20,16 @@ function App() {
     }
     else if(name && isEditing) {
       // Deal with edit
+      setList(list.map((item) => {
+        if(item.id === editID) {
+          return {...item, title : name}
+        }
+        return item
+      }))
+      setName('');
+      setEditID(null);
+      setIsEditing(false);
+      showAlert(true, 'success', 'value changed')
     }
     else {
       // Show alert
@@ -43,6 +53,14 @@ function App() {
   const clearList = () => {
     showAlert(true, 'danger', 'empty list');
     setList([]);
+  }
+
+  // editItem() Function to modify the target item added in the list
+  const editItem = (id) => {
+    const specificItem = list.find((item) => item.id === id);
+    setIsEditing(true);
+    setEditID(id);
+    setName(specificItem.title);
   }
 
   // removeItem Function 
@@ -79,7 +97,11 @@ function App() {
         {/* Set the items list and the clearList Button as we add one item */}
         {list.length > 0 && (
           <div className='grocery-container'>
-            <List items={list} removeItem={removeItem} />
+            <List 
+              items={list} 
+              removeItem={removeItem}
+              editItem={editItem} 
+            />
             <button className='clear-btn' onClick={clearList}>
               clear items
             </button>
