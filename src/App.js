@@ -2,9 +2,27 @@ import React, { useState, useEffect } from 'react'
 import List from './List'
 import Alert from './Alert'
 
+// getLocalStorage() Function for our item's list a maintain it after refreshing the page
+const getLocalStorage = () => {
+  let list = localStorage.getItem('list');
+  
+    /* parse() analyses a JSON character string and 
+    constructs the JavaScript value or object described by this string. 
+    You can optionally use this function with a modification parameter 
+    to process the object before it is returned */
+    // if the list exist returns the list as a string  
+    if(list) {
+      return JSON.parse(localStorage.getItem('list'))
+    }
+    // else return an empty array
+    else {
+      return []
+    }
+}
+
 function App() {
   const [name, setName] = useState('');
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(getLocalStorage);
   const [isEditing, setIsEditing] = useState(false);
   const [editID, setEditID] = useState(null);
   const [alert, setAlert] = useState({show: false, msg:'', type:'' });
@@ -62,6 +80,14 @@ function App() {
     setEditID(id);
     setName(specificItem.title);
   }
+  // 
+  useEffect(() => {
+    // key (key name of 'list') pairs value (
+    // Use the item objects in the list and transform them as a string with .stringify(list))
+    /* JavaScript Object Notation (JSON) is a standard format used 
+    to represent structured data in a similar way to JavaScript objects. */
+    localStorage.setItem('list', JSON.stringify(list))
+  }, [list])
 
   // removeItem Function 
   // To remove item one by one in the list
